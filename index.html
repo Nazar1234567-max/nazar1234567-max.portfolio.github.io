@@ -1,0 +1,1034 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Nazar's Portfolio
+  </title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+   /* Reset and base */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0; padding: 0;
+    font-family: 'Inter', sans-serif;
+    background: #0a0a0a;
+    color: #eee;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  img {
+    max-width: 100%;
+    display: block;
+  }
+  /* Loading overlay */
+  #loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: #0a0a0a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  .loader {
+    width: 60px;
+    height: 60px;
+    border: 6px solid #222;
+    border-top: 6px solid #0ff;
+    border-radius: 50%;
+    animation: spin 1.2s linear infinite;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Navbar */
+  nav {
+    position: sticky;
+    top: 0;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: saturate(180%) blur(10px);
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,255,255,0.1);
+  }
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #0ff;
+    letter-spacing: 0.1em;
+    user-select: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+  .nav-links a {
+    font-weight: 600;
+    font-size: 1rem;
+    position: relative;
+    padding: 0.25rem 0;
+    transition: color 0.3s ease;
+  }
+  .nav-links a::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: #0ff;
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover,
+  .nav-links a.active {
+    color: #0ff;
+  }
+  .nav-links a:hover::after,
+  .nav-links a.active::after {
+    width: 100%;
+  }
+
+  /* Hamburger for mobile */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+  }
+  .hamburger div {
+    width: 25px;
+    height: 3px;
+    background: #0ff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+  /* Mobile nav open animation */
+  .hamburger.open div:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  .hamburger.open div:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger.open div:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  /* Mobile nav */
+  @media (max-width: 768px) {
+    .nav-links {
+      position: fixed;
+      top: 60px;
+      right: 0;
+      background: rgba(10,10,10,0.95);
+      height: calc(100vh - 60px);
+      width: 220px;
+      flex-direction: column;
+      padding: 2rem 1.5rem;
+      gap: 2rem;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      box-shadow: -4px 0 15px rgba(0,255,255,0.2);
+      border-left: 1px solid rgba(0,255,255,0.1);
+      z-index: 999;
+    }
+    .nav-links.open {
+      transform: translateX(0);
+    }
+    .hamburger {
+      display: flex;
+    }
+  }
+
+  /* Sections */
+  section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 1.5rem 6rem 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+  h2.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #0ff;
+    margin-bottom: 1rem;
+    letter-spacing: 0.1em;
+    text-align: center;
+  }
+  .section-subtitle {
+    text-align: center;
+    font-weight: 400;
+    font-size: 1.1rem;
+    color: #aaa;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Landing Section */
+  #landing {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 0;
+  }
+  #landing h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    color: #0ff;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.5rem;
+  }
+  #landing p {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #ccc;
+    margin-bottom: 2.5rem;
+  }
+  .btn-neon {
+    background: transparent;
+    border: 2px solid #0ff;
+    color: #0ff;
+    padding: 0.75rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    box-shadow:
+      0 0 5px #0ff,
+      0 0 10px #0ff,
+      0 0 20px #0ff,
+      0 0 40px #0ff;
+    transition: all 0.3s ease;
+  }
+  .btn-neon:hover {
+    background: #0ff;
+    color: #000;
+    box-shadow:
+      0 0 10px #0ff,
+      0 0 20px #0ff,
+      0 0 40px #0ff,
+      0 0 80px #0ff;
+  }
+
+  /* About Section */
+  #about {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    align-items: center;
+    justify-content: center;
+  }
+  #about .about-illustration {
+    flex: 1 1 280px;
+    max-width: 320px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow:
+      0 0 15px rgba(0,255,255,0.3),
+      inset 0 0 30px rgba(0,255,255,0.2);
+    background: rgba(10,10,10,0.7);
+  }
+  #about .about-illustration img {
+    border-radius: 20px;
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  #about .about-text {
+    flex: 2 1 400px;
+    color: #ccc;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    background: rgba(10,10,10,0.7);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow:
+      0 0 15px rgba(0,255,255,0.3);
+  }
+
+  /* Projects Section */
+  #projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 2.5rem;
+  }
+  .project-card {
+    background: rgba(10,10,10,0.7);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow:
+      0 0 15px rgba(0,255,255,0.3);
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .project-card:hover {
+    transform: translateY(-10px);
+    box-shadow:
+      0 0 25px #0ff,
+      0 0 40px #0ff;
+  }
+  .project-image {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+  }
+  .project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .project-card:hover .project-image img {
+    transform: scale(1.1);
+  }
+  .project-content {
+    padding: 1.5rem;
+  }
+  .project-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0ff;
+    margin-bottom: 0.5rem;
+  }
+  .project-desc {
+    font-size: 1rem;
+    color: #bbb;
+    line-height: 1.4;
+  }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .modal-content {
+    background: #111;
+    border-radius: 20px;
+    max-width: 600px;
+    width: 90%;
+    padding: 2rem;
+    box-shadow:
+      0 0 30px #0ff;
+    position: relative;
+    color: #eee;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    color: #0ff;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  .modal-close:hover {
+    color: #0cc;
+  }
+  .modal-content h3 {
+    margin-top: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0ff;
+    margin-bottom: 1rem;
+  }
+  .modal-content p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #ccc;
+  }
+
+  /* Skills Section */
+  #skills {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .skill {
+    margin-bottom: 1.8rem;
+  }
+  .skill-label {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #0ff;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .skill-label i {
+    color: #0ff;
+    font-size: 1.3rem;
+  }
+  .progress-bar {
+    background: #222;
+    border-radius: 50px;
+    overflow: hidden;
+    height: 18px;
+  }
+  .progress-bar-inner {
+    height: 100%;
+    background: linear-gradient(90deg, #0ff, #00ffffcc);
+    width: 0;
+    border-radius: 50px;
+    transition: width 1.5s ease;
+  }
+
+  /* Contact Section */
+  #contact form {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    background: rgba(10,10,10,0.7);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow:
+      0 0 15px rgba(0,255,255,0.3);
+  }
+  #contact form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #0ff;
+  }
+  #contact form input,
+  #contact form textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    border: none;
+    background: #222;
+    color: #eee;
+    font-size: 1rem;
+    resize: vertical;
+    transition: box-shadow 0.3s ease;
+  }
+  #contact form input:focus,
+  #contact form textarea:focus {
+    outline: none;
+    box-shadow:
+      0 0 10px #0ff,
+      0 0 20px #0ff;
+    background: #111;
+  }
+  #contact form button {
+    background: transparent;
+    border: 2px solid #0ff;
+    color: #0ff;
+    padding: 0.75rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    box-shadow:
+      0 0 5px #0ff,
+      0 0 10px #0ff,
+      0 0 20px #0ff,
+      0 0 40px #0ff;
+    transition: all 0.3s ease;
+  }
+  #contact form button:hover {
+    background: #0ff;
+    color: #000;
+    box-shadow:
+      0 0 10px #0ff,
+      0 0 20px #0ff,
+      0 0 40px #0ff,
+      0 0 80px #0ff;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 0.9rem;
+    color: #444;
+  }
+
+  /* Scroll reveal animations */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Background animated gradient waves */
+  #background-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+  </style>
+ </head>
+ <body>
+  <div aria-label="Loading animation" id="loading-overlay">
+   <div aria-busy="true" aria-live="polite" class="loader" role="status">
+   </div>
+  </div>
+  <nav aria-label="Primary Navigation" role="navigation">
+   <div class="nav-container">
+    <div class="nav-logo" tabindex="0">
+     Portfolio
+    </div>
+    <div class="nav-links" id="nav-links">
+     <a class="active" href="#landing" tabindex="0">
+      Home
+     </a>
+     <a href="#about" tabindex="0">
+      About
+     </a>
+     <a href="#projects" tabindex="0">
+      Projects
+     </a>
+     <a href="#skills" tabindex="0">
+      Skills
+     </a>
+     <a href="#contact" tabindex="0">
+      Contact
+     </a>
+    </div>
+    <div aria-controls="nav-links" aria-expanded="false" aria-label="Toggle menu" class="hamburger" id="hamburger" role="button" tabindex="0">
+     <div>
+     </div>
+     <div>
+     </div>
+     <div>
+     </div>
+    </div>
+   </div>
+  </nav>
+  <canvas aria-hidden="true" id="background-canvas">
+  </canvas>
+  <main>
+   <section aria-label="Landing section with name and tagline" id="landing">
+    <h1 class="reveal">
+     Hi, it's Me Nazar
+    </h1>
+    <p class="reveal" style="transition-delay: 0.2s;">
+     Aspiring Developer &amp; Tech Enthusiast
+    </p>
+    <button aria-label="Call to action button to scroll to projects" class="btn-neon reveal" id="cta-button" style="transition-delay: 0.4s;">
+     View Projects
+    </button>
+   </section>
+   <section aria-label="About me section" id="about">
+    <h2 class="section-title reveal">
+     About Me
+    </h2>
+    <p class="section-subtitle reveal" style="transition-delay: 0.1s;">
+     Get to know me better!!
+    </p>
+    <div class="about-illustration reveal" style="transition-delay: 0.2s;">
+     <img alt="High-quality vector style illustration of a young professor, cartoon style, wearing glasses and a blazer, holding a book, with a friendly smile and dark background" height="320" src="https://storage.googleapis.com/a1aa/image/6eb7583c-9779-4d14-ab76-bc8141a41566.jpg" width="320"/>
+    </div>
+    <div class="about-text reveal" style="transition-delay: 0.3s;">
+     <p>
+      Hello! I'm Nazar, a passionate student learning to become a programmer. I enjoy exploring new technologies, solving problems, and building projects that challenge me to grow. My journey is just beginning, and I'm excited to share my progress and creations with you.
+     </p>
+    </div>
+   </section>
+   <section aria-label="Projects section" id="projects">
+    <h2 class="section-title reveal">
+     Projects
+    </h2>
+    <p class="section-subtitle reveal" style="transition-delay: 0.1s;">
+     Some of my recent work
+    </p>
+    <div class="reveal" style="transition-delay: 0.2s; display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 2.5rem;">
+     <article aria-controls="modal-1" aria-haspopup="dialog" aria-label="Open project details for Weather App" class="project-card" role="button" tabindex="0">
+      <div class="project-image">
+       <img alt="Screenshot of Weather App project showing a blue sky with clouds and temperature readings" height="400" src="https://storage.googleapis.com/a1aa/image/db6d1de2-9346-456c-f9a1-e103ef5f7ccc.jpg" width="600"/>
+      </div>
+      <div class="project-content">
+       <h3 class="project-title">
+        Weather App
+       </h3>
+       <p class="project-desc">
+        A sleek app that shows real-time weather data for any city worldwide.
+       </p>
+      </div>
+     </article>
+     <article aria-controls="modal-2" aria-haspopup="dialog" aria-label="Open project details for Task Manager" class="project-card" role="button" tabindex="0">
+      <div class="project-image">
+       <img alt="Screenshot of Task Manager project with dark mode user interface showing task lists and progress" height="400" src="https://storage.googleapis.com/a1aa/image/1543d901-54c5-453b-eade-e84818f3e8bd.jpg" width="600"/>
+      </div>
+      <div class="project-content">
+       <h3 class="project-title">
+        Task Manager
+       </h3>
+       <p class="project-desc">
+        Organize your daily tasks efficiently with this intuitive task manager.
+       </p>
+      </div>
+     </article>
+     <article aria-controls="modal-3" aria-haspopup="dialog" aria-label="Open project details for Portfolio Website" class="project-card" role="button" tabindex="0">
+      <div class="project-image">
+       <img alt="Screenshot of Portfolio Website project featuring neon style and dark theme" height="400" src="https://storage.googleapis.com/a1aa/image/92e23f82-0906-4297-a99a-53ddbd91191c.jpg" width="600"/>
+      </div>
+      <div class="project-content">
+       <h3 class="project-title">
+        Portfolio Website
+       </h3>
+       <p class="project-desc">
+        My personal portfolio showcasing projects, skills, and contact information.
+       </p>
+      </div>
+     </article>
+    </div>
+   </section>
+   <section aria-label="Skills section" id="skills">
+    <h2 class="section-title reveal">
+     Skills
+    </h2>
+    <p class="section-subtitle reveal" style="transition-delay: 0.1s;">
+     Technologies and tools I use
+    </p>
+    <div class="skills-list reveal" style="transition-delay: 0.2s;">
+     <div aria-label="Skill: HTML, proficiency 90%" class="skill">
+      <div class="skill-label">
+       <i aria-hidden="true" class="fab fa-html5">
+       </i>
+       HTML
+      </div>
+      <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="90" class="progress-bar" role="progressbar">
+       <div class="progress-bar-inner" data-progress="90">
+       </div>
+      </div>
+     </div>
+     <div aria-label="Skill: CSS, proficiency 85%" class="skill">
+      <div class="skill-label">
+       <i aria-hidden="true" class="fab fa-css3-alt">
+       </i>
+       CSS
+      </div>
+      <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="85" class="progress-bar" role="progressbar">
+       <div class="progress-bar-inner" data-progress="85">
+       </div>
+      </div>
+     </div>
+     <div aria-label="Skill: JavaScript, proficiency 80%" class="skill">
+      <div class="skill-label">
+       <i aria-hidden="true" class="fab fa-js-square">
+       </i>
+       JavaScript
+      </div>
+      <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="80" class="progress-bar" role="progressbar">
+       <div class="progress-bar-inner" data-progress="80">
+       </div>
+      </div>
+     </div>
+     <div aria-label="Skill: Git, proficiency 70%" class="skill">
+      <div class="skill-label">
+       <i aria-hidden="true" class="fab fa-git-alt">
+       </i>
+       Git
+      </div>
+      <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="70" class="progress-bar" role="progressbar">
+       <div class="progress-bar-inner" data-progress="70">
+       </div>
+      </div>
+     </div>
+     <div aria-label="Skill: React, proficiency 60%" class="skill">
+      <div class="skill-label">
+       <i aria-hidden="true" class="fab fa-react">
+       </i>
+       React
+      </div>
+      <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="60" class="progress-bar" role="progressbar">
+       <div class="progress-bar-inner" data-progress="60">
+       </div>
+      </div>
+     </div>
+    </div>
+   </section>
+   <section aria-label="Contact section" id="contact">
+    <h2 class="section-title reveal">
+     Contact Me
+    </h2>
+    <p class="section-subtitle reveal" style="transition-delay: 0.1s;">
+     I'd love to hear from you
+    </p>
+    <form class="reveal" id="contact-form" novalidate="" style="transition-delay: 0.2s;">
+     <label for="name">
+      Name
+     </label>
+     <input aria-describedby="name-error" aria-required="true" id="name" name="name" placeholder="Your full name" required="" type="text"/>
+     <span class="error-message" id="name-error" style="color:#f66; font-size:0.9rem; display:none;">
+      Please enter your name.
+     </span>
+     <label for="email">
+      Email
+     </label>
+     <input aria-describedby="email-error" aria-required="true" id="email" name="email" placeholder="your.email@example.com" required="" type="email"/>
+     <span class="error-message" id="email-error" style="color:#f66; font-size:0.9rem; display:none;">
+      Please enter a valid email.
+     </span>
+     <label for="message">
+      Message
+     </label>
+     <textarea aria-describedby="message-error" aria-required="true" id="message" name="message" placeholder="Write your message here..." required="" rows="5"></textarea>
+     <span class="error-message" id="message-error" style="color:#f66; font-size:0.9rem; display:none;">
+      Please enter a message.
+     </span>
+     <button aria-label="Send message" type="submit">
+      Send
+     </button>
+     <p aria-live="polite" id="form-status" role="alert" style="margin-top:1rem; font-weight:600;">
+     </p>
+    </form>
+   </section>
+  </main>
+  <footer>
+   © 2025 By nazar. All rights reserved.
+  </footer>
+  <!-- Modals for projects -->
+  <div aria-labelledby="modal1-title" aria-modal="true" class="modal-overlay" id="modal-1" role="dialog" tabindex="-1">
+   <div class="modal-content">
+    <button aria-label="Close modal" class="modal-close">
+     ×
+    </button>
+    <h3 id="modal1-title">
+     Weather App
+    </h3>
+    <p>
+     This Weather App provides real-time weather information for any city worldwide. It uses a public API to fetch current temperature, humidity, wind speed, and weather conditions. The interface is clean and responsive, designed with a focus on usability and quick access to data.
+    </p>
+   </div>
+  </div>
+  <div aria-labelledby="modal2-title" aria-modal="true" class="modal-overlay" id="modal-2" role="dialog" tabindex="-1">
+   <div class="modal-content">
+    <button aria-label="Close modal" class="modal-close">
+     ×
+    </button>
+    <h3 id="modal2-title">
+     Task Manager
+    </h3>
+    <p>
+     The Task Manager helps you organize your daily tasks efficiently. Features include adding, editing, deleting tasks, and marking them as completed. It supports dark mode and stores data locally for quick access. The UI is minimalistic with smooth animations.
+    </p>
+   </div>
+  </div>
+  <div aria-labelledby="modal3-title" aria-modal="true" class="modal-overlay" id="modal-3" role="dialog" tabindex="-1">
+   <div class="modal-content">
+    <button aria-label="Close modal" class="modal-close">
+     ×
+    </button>
+    <h3 id="modal3-title">
+     Portfolio Website
+    </h3>
+    <p>
+     This Portfolio Website showcases my projects, skills, and contact information. It features a dark theme with neon accents, smooth scrolling, and interactive elements. Built with accessibility and responsiveness in mind to provide a great user experience on all devices.
+    </p>
+   </div>
+  </div>
+  <script>
+   // Loading overlay removal
+  window.addEventListener('load', () => {
+    const loading = document.getElementById('loading-overlay');
+    loading.style.opacity = '0';
+    setTimeout(() => loading.style.display = 'none', 500);
+  });
+
+  // Hamburger menu toggle
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('nav-links');
+  hamburger.addEventListener('click', () => {
+    const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+    hamburger.setAttribute('aria-expanded', !expanded);
+    hamburger.classList.toggle('open');
+    navLinks.classList.toggle('open');
+  });
+  hamburger.addEventListener('keydown', e => {
+    if(e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      hamburger.click();
+    }
+  });
+
+  // Close mobile menu on link click
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      if(navLinks.classList.contains('open')) {
+        hamburger.classList.remove('open');
+        navLinks.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', false);
+      }
+    });
+  });
+
+  // Highlight nav links on scroll
+  const sections = document.querySelectorAll('main section[id]');
+  const navAnchors = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let scrollY = window.pageYOffset;
+    sections.forEach(section => {
+      const sectionHeight = section.offsetHeight;
+      const sectionTop = section.offsetTop - 70;
+      const sectionId = section.getAttribute('id');
+      if(scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+        navAnchors.forEach(a => {
+          a.classList.remove('active');
+          if(a.getAttribute('href') === '#' + sectionId) {
+            a.classList.add('active');
+          }
+        });
+      }
+    });
+  });
+
+  // Smooth scroll for CTA button
+  document.getElementById('cta-button').addEventListener('click', () => {
+    document.getElementById('projects').scrollIntoView({behavior: 'smooth'});
+  });
+
+  // Scroll reveal animations
+  const revealElements = document.querySelectorAll('.reveal');
+  function revealOnScroll() {
+    const windowHeight = window.innerHeight;
+    revealElements.forEach(el => {
+      const elementTop = el.getBoundingClientRect().top;
+      if(elementTop < windowHeight - 100) {
+        el.classList.add('active');
+      }
+    });
+  }
+  window.addEventListener('scroll', revealOnScroll);
+  window.addEventListener('load', revealOnScroll);
+
+  // Animate skill progress bars on scroll
+  function animateSkills() {
+    const skillsSection = document.getElementById('skills');
+    const windowHeight = window.innerHeight;
+    const sectionTop = skillsSection.getBoundingClientRect().top;
+    if(sectionTop < windowHeight - 100) {
+      document.querySelectorAll('.progress-bar-inner').forEach(bar => {
+        const progress = bar.getAttribute('data-progress');
+        bar.style.width = progress + '%';
+      });
+      window.removeEventListener('scroll', animateSkills);
+    }
+  }
+  window.addEventListener('scroll', animateSkills);
+  window.addEventListener('load', animateSkills);
+
+  // Project modals
+  const projectCards = document.querySelectorAll('.project-card');
+  const modals = document.querySelectorAll('.modal-overlay');
+  const modalCloseButtons = document.querySelectorAll('.modal-close');
+
+  projectCards.forEach((card, i) => {
+    card.addEventListener('click', () => openModal(i));
+    card.addEventListener('keydown', e => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openModal(i);
+      }
+    });
+  });
+
+  function openModal(index) {
+    modals[index].classList.add('active');
+    modals[index].focus();
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  modalCloseButtons.forEach((btn, i) => {
+    btn.addEventListener('click', () => closeModal(modals[i]));
+  });
+
+  modals.forEach(modal => {
+    modal.addEventListener('click', e => {
+      if(e.target === modal) {
+        closeModal(modal);
+      }
+    });
+    modal.addEventListener('keydown', e => {
+      if(e.key === 'Escape') {
+        closeModal(modal);
+      }
+    });
+  });
+
+  // Contact form validation and submission simulation
+  const form = document.getElementById('contact-form');
+  const nameInput = form.name;
+  const emailInput = form.email;
+  const messageInput = form.message;
+  const nameError = document.getElementById('name-error');
+  const emailError = document.getElementById('email-error');
+  const messageError = document.getElementById('message-error');
+  const formStatus = document.getElementById('form-status');
+
+  function validateEmail(email) {
+    // Simple email regex
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    let valid = true;
+
+    if(nameInput.value.trim() === '') {
+      nameError.style.display = 'block';
+      valid = false;
+    } else {
+      nameError.style.display = 'none';
+    }
+
+    if(!validateEmail(emailInput.value.trim())) {
+      emailError.style.display = 'block';
+      valid = false;
+    } else {
+      emailError.style.display = 'none';
+    }
+
+    if(messageInput.value.trim() === '') {
+      messageError.style.display = 'block';
+      valid = false;
+    } else {
+      messageError.style.display = 'none';
+    }
+
+    if(valid) {
+      formStatus.style.color = '#0ff';
+      formStatus.textContent = 'Sending message...';
+      // Simulate sending
+      setTimeout(() => {
+        formStatus.textContent = 'Message sent successfully! Thank you.';
+        form.reset();
+      }, 1500);
+    } else {
+      formStatus.style.color = '#f66';
+      formStatus.textContent = 'Please fix the errors above and try again.';
+    }
+  });
+
+  // Background animated gradient waves on canvas
+  const canvas = document.getElementById('background-canvas');
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let waves = [];
+
+  function Wave(y, amplitude, wavelength, speed, colorStops) {
+    this.y = y;
+    this.amplitude = amplitude;
+    this.wavelength = wavelength;
+    this.speed = speed;
+    this.colorStops = colorStops;
+    this.offset = 0;
+  }
+  Wave.prototype.draw = function(time) {
+    this.offset += this.speed;
+    ctx.beginPath();
+    ctx.moveTo(0, height);
+    for(let x = 0; x <= width; x++) {
+      const y = this.y + this.amplitude * Math.sin((x / this.wavelength) * 2 * Math.PI + this.offset);
+      ctx.lineTo(x, y);
+    }
+    ctx.lineTo(width, height);
+    ctx.closePath();
+
+    // Create gradient
+    const gradient = ctx.createLinearGradient(0, this.y - this.amplitude, 0, this.y + this.amplitude);
+    this.colorStops.forEach(stop => {
+      gradient.addColorStop(stop.pos, stop.color);
+    });
+    ctx.fillStyle = gradient;
+    ctx.fill();
+  };
+
+  function resizeCanvas() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width * devicePixelRatio;
+    canvas.height = height * devicePixelRatio;
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+  }
+
+  function initWaves() {
+    waves = [
+      new Wave(height * 0.7, 20, 300, 0.02, [
+        {pos: 0, color: 'rgba(0,255,255,0.15)'},
+        {pos: 1, color: 'rgba(0,255,255,0)'}
+      ]),
+      new Wave(height * 0.75, 15, 200, 0.015, [
+        {pos: 0, color: 'rgba(0,255,255,0.1)'},
+        {pos: 1, color: 'rgba(0,255,255,0)'}
+      ]),
+      new Wave(height * 0.8, 10, 150, 0.01, [
+        {pos: 0, color: 'rgba(0,255,255,0.07)'},
+        {pos: 1, color: 'rgba(0,255,255,0)'}
+      ])
+    ];
+  }
+
+  function animate(time=0) {
+    ctx.clearRect(0, 0, width, height);
+    waves.forEach(wave => wave.draw(time));
+    requestAnimationFrame(animate);
+  }
+
+  window.addEventListener('resize', () => {
+    resizeCanvas();
+    initWaves();
+  });
+
+  resizeCanvas();
+  initWaves();
+  animate();
+  </script>
+ </body>
+</html>
